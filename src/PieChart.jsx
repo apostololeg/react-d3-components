@@ -16,15 +16,26 @@ const { string, array, number, bool, func, any } = PropTypes;
 const Wedge = createReactClass({
     propTypes: {
         d: string.isRequired,
-        fill: string.isRequired
+        fill: string.isRequired,
+        strokeWidth: number,
+        strokeColor: string
     },
 
     render() {
-        const { fill, d, data, onMouseEnter, onMouseLeave } = this.props;
+        const {
+            fill,
+            strokeColor,
+            strokeWidth,
+            d,
+            data,
+            onMouseEnter,
+            onMouseLeave } = this.props;
 
         return (
             <path
                 fill={fill}
+                stroke={strokeColor || '#fff'}
+                strokeWidth={strokeWidth || 0}
                 d={d}
                 onMouseMove={evt => onMouseEnter(evt, data)}
                 onMouseLeave={evt => onMouseLeave(evt)}
@@ -112,7 +123,9 @@ const DataSet = createReactClass({
             y,
             onMouseEnter,
             onMouseLeave,
-            hideLabels
+            hideLabels,
+            pieStrokeWidth,
+            pieStrokeColor
         } = this.props;
 
         const wedges = pie.map((e, index) => {
@@ -123,6 +136,8 @@ const DataSet = createReactClass({
                     <Wedge
                         data={e.data}
                         fill={e.data.fill || colorScale(x(e.data))}
+                        strokeWidth={pieStrokeWidth}
+                        strokeColor={pieStrokeColor}
                         d={arc(e)}
                         onMouseEnter={onMouseEnter}
                         onMouseLeave={onMouseLeave}
@@ -153,7 +168,9 @@ const PieChart = createReactClass({
         padRadius: string,
         cornerRadius: number,
         sort: any,
-        hideLabels: bool
+        hideLabels: bool,
+        pieStrokeWidth: number,
+        pieStrokeColor: string
     },
 
     getDefaultProps() {
@@ -189,7 +206,9 @@ const PieChart = createReactClass({
             x,
             y,
             values,
-            hideLabels
+            hideLabels,
+            pieStrokeWidth,
+            pieStrokeColor
         } = this.props;
 
         let { innerRadius, outerRadius, labelRadius } = this.props;
@@ -252,6 +271,8 @@ const PieChart = createReactClass({
                             radius={radius}
                             x={x}
                             y={y}
+                            pieStrokeWidth={pieStrokeWidth}
+                            pieStrokeColor={pieStrokeColor}
                             onMouseEnter={this.onMouseEnter}
                             onMouseLeave={this.onMouseLeave}
                             hideLabels={hideLabels}

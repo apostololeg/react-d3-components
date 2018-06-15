@@ -122,7 +122,7 @@ const DataSet = createReactClass({
                 <g key={`${x(e.data)}.${y(e.data)}.${index}`} className="arc">
                     <Wedge
                         data={e.data}
-                        fill={colorScale(x(e.data))}
+                        fill={e.data.fill || colorScale(x(e.data))}
                         d={arc(e)}
                         onMouseEnter={onMouseEnter}
                         onMouseLeave={onMouseLeave}
